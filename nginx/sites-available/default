@@ -1,0 +1,83 @@
+server {
+        listen 443 ssl http2 default_server;
+        listen [::]:443 ssl http2 default_server;
+        server_name origin.example.com www.example.com;
+
+        include snippets/ssl-example.com.conf;
+        include snippets/ssl-params.conf;
+
+        location / {
+	        if ($bad_referer) {
+		        return 444;
+		}
+                proxy_pass http://127.0.0.1:80;
+                proxy_set_header X-Real-IP  $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto https;
+                proxy_set_header X-Forwarded-Port 443;
+                proxy_set_header Host $host;
+                #proxy_redirect off;
+		proxy_buffer_size          128k;
+		proxy_buffers              4 256k;
+		proxy_busy_buffers_size    256k;
+        }
+
+}
+server {
+	listen 8080;
+	listen [::]:8080;
+	root /var/www/html;
+	include hhvm.conf;
+        set_real_ip_from 127.0.0.1;
+        real_ip_header X-Forwarded-For;	
+	index index.php index.html index.htm index.nginx-debian.html;
+	location / {
+		try_files $uri $uri/ /index.php?q=$uri&args;
+	}
+	location ~* \.(eot|ttf|woff|woff2|svg)$ {
+		add_header Access-Control-Allow-Origin '*';
+                expires 31536000s;
+                add_header Pragma "public";
+                add_header Cache-Control "max-age=31536000, public";
+                try_files $uri $uri/ $uri.html /index.php?$args;
+	}
+	include /var/www/html/nginx.conf;
+	location ~ \.(webp)$ {
+		expires 31536000s;
+		add_header Pragma "public";
+		add_header Cache-Control "max-age=31536000, public";
+		try_files $uri $uri/ $uri.html /index.php?$args;
+	}
+        location ~/.well-known {
+                allow all;
+        }
+	location = /var/www/html/nginx.conf {
+		deny all;
+	}
+	include /var/www/html/nginx.conf;
+	location ~ /(\.|nginx.conf|nginx_ref.conf) {
+                deny all;
+        }
+	if ($bad_referer) {
+		return 444;
+	}
+}
+server {
+	listen 5062 ssl;
+	listen [::]:5062 ssl;
+        include snippets/ssl-example.com.conf;
+        include snippets/ssl-params.conf;
+
+	root /var/www/admin;
+	index index.php index.html index.htm;
+	server_name tools.example.com;
+	include hhvm.conf;
+	location / {
+		try_files $uri $uri/ /index.php?q=$uri&args;
+		auth_basic "Restricted Content";
+		auth_basic_user_file /var/www/admin/.htpasswd;
+	}
+        location ~/.well-known {
+                allow all;
+        }
+}
