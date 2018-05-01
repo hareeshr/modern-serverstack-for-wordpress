@@ -104,7 +104,7 @@ nano info.php
  - go to ip/info.php in your browser
  - or type `php info.php` in your ssh console
  - `php -v` in your ssh console
- 
+
 #### Install WordPress
 ```
 cd /var/www/html/
@@ -158,7 +158,7 @@ add `define('WP_CACHE_KEY_SALT', 'example.com');` to the file
 
  Start Varnish and enable it to run at boot
 ```
-service redis-server start 
+service redis-server start
 update-rc.d redis-server enable
 update-rc.d redis-server defaults
 ```
@@ -175,29 +175,31 @@ Files to configure Redis
 To edit files use `sudo nano filename
 
 Make following edits
-- 	-> write_enable=YES
--	-> listen=YES
--	-> comment listen_ipv6=YES
--	-> add to end
-		`user_sub_token=$USER`
-		`local_root=/home/$USER/ftp`
-		`pasv_min_port=40000`
-		`pasv_max_port=50000`
-		`pasv_address=elastic_ip`
-		`userlist_enable=YES`
-		`userlist_file=/etc/vsftpd.userlist`
-		`userlist_deny=NO`
-		`rsa_cert_file=/etc/ssl/private/vsftpd.pem`
-		`rsa_private_key_file=/etc/ssl/private/vsftpd.pem`
-		`ssl_enable=YES`
-		`allow_anon_ssl=NO`
-		`force_local_data_ssl=YES`
-		`force_local_logins_ssl=YES`
-		`ssl_tlsv1=YES`
-		`ssl_sslv2=NO`
-		`ssl_sslv3=NO`
-		`require_ssl_reuse=NO`
-		`ssl_ciphers=HIGH`
+- write_enable=YES
+-	listen=YES
+-	comment listen_ipv6=YES
+-	add to end
+```
+user_sub_token=$USER
+local_root=/home/$USER/ftp
+pasv_min_port=40000
+pasv_max_port=50000
+pasv_address=elastic_ip
+userlist_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO
+rsa_cert_file=/etc/ssl/private/vsftpd.pem
+rsa_private_key_file=/etc/ssl/private/vsftpd.pem
+ssl_enable=YES
+allow_anon_ssl=NO
+force_local_data_ssl=YES
+force_local_logins_ssl=YES
+ssl_tlsv1=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+require_ssl_reuse=NO
+ssl_ciphers=HIGH
+```
 
 Add FTP User and Grant Access to html files
 ```
@@ -237,7 +239,7 @@ sudo apt-get install certbot
 ```
 # list firewall applications
 sudo ufw app list
-# IMPORTANT: as without ssh access you 
+# IMPORTANT: as without ssh access you
 # don't have access to the server ;)
 sudo ufw allow ssh
 # HTTP AND HTTPS access
@@ -267,7 +269,7 @@ sudo wget -c https://www.adminer.org/latest-en.php -O index.php
 ```
 #### Nginx Service Controls
 ```
-# Nginx server Status 
+# Nginx server Status
 sudo systemctl status nginx
 # Start Nginx server
 sudo systemctl start nginx
@@ -280,7 +282,7 @@ sudo systemctl stop nginx
 ```
 #### Mariadb Service Controls
 ```
-# Mariadb server Status 
+# Mariadb server Status
 sudo systemctl status mysql
 # Start Mariadb server
 sudo systemctl start mysql
@@ -294,7 +296,7 @@ sudo systemctl stop mysql
 
 #### Varnish Service Controls
 ```
-# Varnish server Status 
+# Varnish server Status
 sudo systemctl status varnish
 # Start Varnish server
 sudo systemctl start varnish
@@ -307,7 +309,7 @@ sudo systemctl stop varnish
 ```
 #### Redis Service Controls
 ```
-# Redis server Status 
+# Redis server Status
 sudo systemctl status redis
 # Start Redis server
 sudo systemctl start redis
@@ -320,7 +322,7 @@ sudo systemctl stop redis
 ```
 #### VsFTPd Service Controls
 ```
-# VsFTPd server Status 
+# VsFTPd server Status
 sudo systemctl status vsftpd
 # Start VsFTPd server
 sudo systemctl start vsftpd
@@ -367,7 +369,7 @@ location / {
 #### Check RAM usage
 ```
 # ram usage
-watch -n 5 free -m 
+watch -n 5 free -m
 # apps using resources
 ps aux
 # clear cache
