@@ -178,7 +178,7 @@ Make following edits
 - write_enable=YES
 -	listen=YES
 -	comment listen_ipv6=YES
--	add to end
+-	add to end of the file
 ```
 user_sub_token=$USER
 local_root=/home/$USER/ftp
