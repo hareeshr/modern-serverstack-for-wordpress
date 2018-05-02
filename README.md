@@ -354,6 +354,8 @@ nano /etc/nginx/sites-available/default
 nano /etc/hhvm/php.ini
 # Varnish
 nano /etc/varnish/default.vcl
+nano /etc/default/varnish
+nano /lib/systemd/system/varnish.service
 # Redis
 nano /etc/redis/redis.conf
 # VsFTPd

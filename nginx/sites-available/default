@@ -29,7 +29,7 @@ server {
 	root /var/www/html;
 	include hhvm.conf;
         set_real_ip_from 127.0.0.1;
-        real_ip_header X-Forwarded-For;	
+        real_ip_header X-Forwarded-For;
 	index index.php index.html index.htm index.nginx-debian.html;
 	location / {
 		try_files $uri $uri/ /index.php?q=$uri&args;
@@ -41,23 +41,27 @@ server {
                 add_header Cache-Control "max-age=31536000, public";
                 try_files $uri $uri/ $uri.html /index.php?$args;
 	}
-	include /var/www/html/nginx.conf;
-	location ~ \.(webp)$ {
+
+  #w3tc nginx config file
+	#include /var/www/html/nginx.conf;
+  #location = /var/www/html/nginx.conf {
+  #  deny all;
+  #}
+
+  location ~ \.(webp)$ {
 		expires 31536000s;
 		add_header Pragma "public";
 		add_header Cache-Control "max-age=31536000, public";
 		try_files $uri $uri/ $uri.html /index.php?$args;
 	}
-        location ~/.well-known {
-                allow all;
-        }
-	location = /var/www/html/nginx.conf {
-		deny all;
-	}
-	include /var/www/html/nginx.conf;
-	location ~ /(\.|nginx.conf|nginx_ref.conf) {
-                deny all;
-        }
+  # for LetsEncrypt
+  location ~/.well-known {
+          allow all;
+  }
+	include /var/www/html/nginx-redirect.conf;
+	location ~ /(\.|nginx-redirect.conf|nginx-referral.conf) {
+    deny all;
+  }
 	if ($bad_referer) {
 		return 444;
 	}
