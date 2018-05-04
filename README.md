@@ -148,8 +148,16 @@ redis-server /etc/redis/redis.conf
 ```
 Files to configure Redis
 - /etc/redis/redis.conf
+- /etc/systemd/system/redis.service
 To edit files use `sudo nano filename
 
+Create the Redis User, Group and Directories
+```
+sudo adduser --system --group --no-create-home redis
+sudo mkdir /var/lib/redis
+sudo chown redis:redis /var/lib/redis
+sudo chmod 770 /var/lib/redis
+```
 Add Redis to WordPress Config
 ```
 nano /var/www/html/wp-config.php
